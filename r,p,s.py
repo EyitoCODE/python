@@ -5,7 +5,7 @@ Date: [2005-02-09]
 Description: A simple Rock, Paper, Scissors game where the player competes against the CPU.
              The program ensures valid input, handles case sensitivity, and determines the winner.
 
-Version: 1.1
+Version: 1.0
 Python Version: 3.13.1
 """
 import random #to make the cpu's choice random
