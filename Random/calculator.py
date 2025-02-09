@@ -1,3 +1,6 @@
+
+
+
 def add(x, y):
     return x + y
 
@@ -13,7 +16,6 @@ def divide(x, y):
     return x / y
 
 def calculator():
-    print("Simple Python Calculator")
     print("Select operation:")
     print("1. Add")
     print("2. Subtract")
