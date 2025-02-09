@@ -54,3 +54,7 @@ print(result)
 # choices = get_choices()
 # print(choices)
 #ok ok
+<<<<<<< HEAD
+=======
+#new newuyfy
+>>>>>>> 63c9920b2676540034f87fed74f8220a455d9e4a
