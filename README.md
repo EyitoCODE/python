@@ -1,2 +1,2 @@
 # python
-first python code
+Where I keep all my pyhton codes. scripts
