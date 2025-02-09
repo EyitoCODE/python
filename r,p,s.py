@@ -51,6 +51,4 @@ choices = get_choices()
 result = check_win(choices["player"], choices["CPU"])
 print(result)
 
-# choices = get_choices()
-# print(choices)
-#ok ok
+
