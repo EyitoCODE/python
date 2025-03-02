@@ -53,3 +53,11 @@ class PDFViewer:
 root = tk.Tk()
 app = PDFViewer(root)
 root.mainloop()
+
+
+##  Advanced Features to Add ##
+#  Zooming (Resize images dynamically)
+#  Scrolling (For large pages)
+#  Text Extraction (Highlight/select text)
+#  Annotations (Drawing on PDF)
+#  Search (Find text in PDF)
