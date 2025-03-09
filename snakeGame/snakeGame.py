@@ -1,3 +1,4 @@
+
 ### snake_game.py
 
 import pygame
@@ -24,12 +25,15 @@ GRAY  = (200, 200, 200)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Snake Game")
 
-# Clock to control game speed
+# Clock to control game speed and FPS viewer
 clock = pygame.time.Clock()
 
 # Snake settings
 SNAKE_BLOCK = 10
-SNAKE_SPEED = 15
+
+# Default FPS options and current FPS
+FPS_OPTIONS = {pygame.K_F1: 30, pygame.K_F2: 60, pygame.K_F3: 120}
+current_fps = 60
 
 # Global high score (persists during session)
 HIGH_SCORE = 0
@@ -38,9 +42,17 @@ HIGH_SCORE = 0
 font_style = pygame.font.SysFont("bahnschrift", 25)
 
 def display_message(msg, color):
-    """Display a centered message on the play area."""
+    """Display a centered message on the play area (for non-game over messages)."""
     mesg = font_style.render(msg, True, color)
-    screen.blit(mesg, [SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2])
+    text_rect = mesg.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+    screen.blit(mesg, text_rect)
+
+def display_game_over(msg, color):
+    """Display a larger, all-caps game-over message at the center of the screen."""
+    game_over_font = pygame.font.SysFont("bahnschrift", 50)
+    mesg = game_over_font.render(msg.upper(), True, color)
+    text_rect = mesg.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+    screen.blit(mesg, text_rect)
 
 def draw_snake(snake_block, snake_list):
     """Draw the snake segments on the screen."""
@@ -48,12 +60,15 @@ def draw_snake(snake_block, snake_list):
         pygame.draw.rect(screen, BLACK, [segment[0], segment[1], snake_block, snake_block])
 
 def draw_score(current_score, high_score):
-    """Draw the scoreboard on the top border."""
-    score_text = font_style.render(f"Score: {current_score}   High Score: {high_score}", True, BLACK)
+    """Draw the scoreboard on the top border with FPS display."""
+    fps_display = clock.get_fps()
+    score_text = font_style.render(
+        f"Score: {current_score}   High Score: {high_score}   FPS: {fps_display:.1f}", True, BLACK
+    )
     screen.blit(score_text, (10, 5))
 
 def game_loop():
-    global HIGH_SCORE
+    global HIGH_SCORE, current_fps
 
     game_over = False
     game_close = False
@@ -77,7 +92,7 @@ def game_loop():
 
         while game_close:
             screen.fill(WHITE)
-            display_message("You lost! Press Q-Quit or C-Play Again", RED)
+            display_game_over("YOU LOST! PRESS Q TO QUIT OR C TO PLAY AGAIN", RED)
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -91,7 +106,12 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
+
             if event.type == pygame.KEYDOWN:
+                # Handle FPS changes with F1, F2, F3 keys
+                if event.key in FPS_OPTIONS:
+                    current_fps = FPS_OPTIONS[event.key]
+
                 # Prevent reverse direction by checking current movement
                 if event.key == pygame.K_LEFT and x_change != SNAKE_BLOCK:
                     x_change = -SNAKE_BLOCK
@@ -150,7 +170,7 @@ def game_loop():
             if (snake_length - 1) > HIGH_SCORE:
                 HIGH_SCORE = snake_length - 1
 
-        clock.tick(SNAKE_SPEED)
+        clock.tick(current_fps)
 
     pygame.quit()
     quit()
