@@ -30,6 +30,12 @@ FPS Options and Viewer: Added options to switch between 30, 60, and 120 FPS and 
 - [pygame](https://www.pygame.org/) library
 
 ## Current bugs
-- Different fps options causes the game to move faster
+- Different fps options causes the snake to move faster
 - Game over screen overextends the screen
+
+## Future improvements
+- Add sfx and better designs for the snake and the food
+- Global leader board
+- Different map
+- Different game modes
 
