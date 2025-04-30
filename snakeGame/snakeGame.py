@@ -1,5 +1,5 @@
 
-### snake_game.py
+## snake_game.py
 
 import pygame
 import random
