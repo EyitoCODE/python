@@ -49,7 +49,7 @@ def display_message(msg, color):
 
 def display_game_over(msg, color):
     """Display a larger, all-caps game-over message at the center of the screen."""
-    game_over_font = pygame.font.SysFont("bahnschrift", 50)
+    game_over_font = pygame.font.SysFont("bahnschrift", 25)
     mesg = game_over_font.render(msg.upper(), True, color)
     text_rect = mesg.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
     screen.blit(mesg, text_rect)
@@ -67,11 +67,50 @@ def draw_score(current_score, high_score):
     )
     screen.blit(score_text, (10, 5))
 
+
+def difficulty_selection():
+    """Display difficulty selection menu and return FPS for chosen difficulty."""
+    selecting = True
+    while selecting:
+        screen.fill(WHITE)
+        font = pygame.font.SysFont("bahnschrift", 30)
+        lines = [
+            "Select Difficulty:",
+            "E - Easy (30 FPS)",
+            "M - Medium (45 FPS)",
+            "H - Hard (60)",
+            "",
+            "Press E, M, or H to select difficulty."
+        ]
+        for i, line in enumerate(lines):
+            text = font.render(line, True, BLACK)
+            text_rect = text.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3 + i * 40))
+            screen.blit(text, text_rect)
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    return 30  # Easy FPS
+                elif event.key == pygame.K_m:
+                    return 45  # Medium FPS
+                elif event.key == pygame.K_h:
+                    return 60  # Hard FPS (current default)
+
 def game_loop():
     global HIGH_SCORE, current_fps
 
+    # At start of game loop, select difficulty once
+    current_fps = difficulty_selection()
+
     game_over = False
     game_close = False
+
+    # Rest of your existing code...
 
     # Starting position of the snake's head (centered in play area)
     x = SCREEN_WIDTH / 2
@@ -84,7 +123,7 @@ def game_loop():
     snake_list = []
     snake_length = 1
 
-    # Initial food position (inside the play area boundaries)
+    # Initial food position
     food_x = round(random.randrange(BORDER_THICKNESS, SCREEN_WIDTH - BORDER_THICKNESS - SNAKE_BLOCK) / 10.0) * 10.0
     food_y = round(random.randrange(SCOREBOARD_HEIGHT + BORDER_THICKNESS, SCREEN_HEIGHT - BORDER_THICKNESS - SNAKE_BLOCK) / 10.0) * 10.0
 
@@ -108,43 +147,41 @@ def game_loop():
                 game_over = True
 
             if event.type == pygame.KEYDOWN:
-                # Handle FPS changes with F1, F2, F3 keys
+                # Handle FPS changes with F1, F2, F3 keys (optional)
                 if event.key in FPS_OPTIONS:
                     current_fps = FPS_OPTIONS[event.key]
 
-                # Prevent reverse direction by checking current movement
-                if event.key == pygame.K_LEFT and x_change != SNAKE_BLOCK:
+                
+                # Movement controls with arrow keys and WASD
+                if (event.key == pygame.K_LEFT or event.key == pygame.K_a)  and x_change != SNAKE_BLOCK:
                     x_change = -SNAKE_BLOCK
                     y_change = 0
-                elif event.key == pygame.K_RIGHT and x_change != -SNAKE_BLOCK:
+                elif (event.key == pygame.K_RIGHT or event.key == pygame.K_d) and x_change != -SNAKE_BLOCK:
                     x_change = SNAKE_BLOCK
                     y_change = 0
-                elif event.key == pygame.K_UP and y_change != SNAKE_BLOCK:
+                elif (event.key == pygame.K_UP or event.key == pygame.K_w) and y_change != SNAKE_BLOCK:
                     y_change = -SNAKE_BLOCK
                     x_change = 0
-                elif event.key == pygame.K_DOWN and y_change != -SNAKE_BLOCK:
+                elif (event.key == pygame.K_DOWN or event.key == pygame.K_s) and y_change != -SNAKE_BLOCK:
                     y_change = SNAKE_BLOCK
                     x_change = 0
+
+    
 
         x += x_change
         y += y_change
 
-        # Fill background and draw scoreboard border
         screen.fill(WHITE)
         pygame.draw.rect(screen, GRAY, [0, 0, SCREEN_WIDTH, SCOREBOARD_HEIGHT])
         draw_score(snake_length - 1, HIGH_SCORE)
-
-        # Draw thick black border for the play area
         pygame.draw.rect(screen, BLACK, [0, SCOREBOARD_HEIGHT, SCREEN_WIDTH, PLAY_AREA_HEIGHT], BORDER_THICKNESS)
 
-        # Collision detection with play area border (inside the thick border)
         if (x < BORDER_THICKNESS or 
             x > SCREEN_WIDTH - BORDER_THICKNESS - SNAKE_BLOCK or 
             y < SCOREBOARD_HEIGHT + BORDER_THICKNESS or 
             y > SCREEN_HEIGHT - BORDER_THICKNESS - SNAKE_BLOCK):
             game_close = True
 
-        # Draw food inside the play area
         pygame.draw.rect(screen, GREEN, [food_x, food_y, SNAKE_BLOCK, SNAKE_BLOCK])
 
         snake_head = [x, y]
@@ -152,7 +189,6 @@ def game_loop():
         if len(snake_list) > snake_length:
             del snake_list[0]
 
-        # Check for collision with itself
         for segment in snake_list[:-1]:
             if segment == snake_head:
                 game_close = True
@@ -160,13 +196,11 @@ def game_loop():
         draw_snake(SNAKE_BLOCK, snake_list)
         pygame.display.update()
 
-        # Check if snake has eaten the food
         if x == food_x and y == food_y:
             food_x = round(random.randrange(BORDER_THICKNESS, SCREEN_WIDTH - BORDER_THICKNESS - SNAKE_BLOCK) / 10.0) * 10.0
             food_y = round(random.randrange(SCOREBOARD_HEIGHT + BORDER_THICKNESS, SCREEN_HEIGHT - BORDER_THICKNESS - SNAKE_BLOCK) / 10.0) * 10.0
             snake_length += 1
 
-            # Update high score if necessary
             if (snake_length - 1) > HIGH_SCORE:
                 HIGH_SCORE = snake_length - 1
 
@@ -177,3 +211,5 @@ def game_loop():
 
 if __name__ == "__main__":
     game_loop()
+
+
