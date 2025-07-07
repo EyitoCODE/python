@@ -7,4 +7,3 @@ Heres is the list of completed codes:
 3. Minesweeper 
 4. Ayo board game
 5. Snake game
-6. teest
