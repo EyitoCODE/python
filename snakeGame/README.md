@@ -19,7 +19,8 @@ FPS Options and Viewer: Added options to switch between 30, 60, and 120 FPS and 
 
 ## Features
 
-- Basic snake movement controlled by the arrow keys.
+- Basic snake movement controlled by the arrow and wasd keys.
+- Muliple difficulty options (30, 45, and 60 FPS).
 - Food that appears randomly on the screen.
 - Growing snake each time food is eaten.
 - Game-over condition when the snake hits the window border or itself.
