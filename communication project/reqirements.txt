@@ -1,0 +1,8 @@
+# ai_interview_lite_code/requirements.txt
+
+opencv-python
+speechrecognition
+pyaudio
+textblob
+deepface
+tk
