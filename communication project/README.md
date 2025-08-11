@@ -23,3 +23,7 @@ python main.py
 ## Requirements
 - Python 3.8+
 - Mac/Windows/Linux with camera & microphone
+
+
+## Demo
+
