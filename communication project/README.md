@@ -1,6 +1,6 @@
 # ai_interview_lite_code/README.md
 
-# AI Interview Feedback Lite
+# AI Interview Feedback 
 
 A simplified Python-based AI system that gives real-time feedback on interview performance using facial expression, speech sentiment, and filler word analysis.
 
