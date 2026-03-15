@@ -1,7 +1,7 @@
 
 # AI Interview Feedback Lite
 
-![Demo](Communication Coach/Screenshot 2025-08-10 234643.png) 
+![Demo](demo.png) 
 A simplified Python-based AI system that gives real-time feedback on interview performance using facial expression, speech sentiment, and filler word analysis.
 
 ## Features
